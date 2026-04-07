@@ -23,6 +23,7 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Custom styles for this template -->
   <link href="{% static 'css/style1.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
   <!-- responsive style -->
   <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
 </head>
@@ -67,11 +68,14 @@
                   <a href="{% url 'index' %}">HOME</a>
                   <a href="{% url 'about' %}">ABOUT</a>
                   <a href="{% url 'product_search' %}">RENTS</a>
+                  {% if request.user.is_authenticated %}
+                  <a href="{% url 'favorites_list' %}">FAVORITES</a>
+                  {% endif %}
                   <a href="{% url 'contact' %}">CONTACT US</a>
                   {% if request.user.is_authenticated  %}
                   <div class="dropdown d-flex justify-content-center">
                      <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{request.user.profile.profile_picture.url}}" height="50px" width="50px" style="border-radius: 50%; border: 2px solid orangered;" b alt="">
+                        <img src="{% static 'images/client.jpg' %}" height="50px" width="50px" style="border-radius: 50%; border: 2px solid orangered;" alt="">
             
                      </button>
                      <ul class="dropdown-menu position-absolute start-50 translate-middle-x mt-1">

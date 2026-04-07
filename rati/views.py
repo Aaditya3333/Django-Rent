@@ -1,6 +1,6 @@
 import re
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Rent,Profile,Product,Contact
+from .models import Rent, Profile, Product, Contact, Favorite, Category
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -14,7 +14,7 @@ from django.core.mail import send_mail
 from django.db.models import Q
 # Create your views here.
 def index(request):
-    rent=Product.objects.filter(isdelete=True)
+    rent = Product.objects.filter(isdelete=True).order_by('-created_at')
     paginator=Paginator(rent,3)
     p_num=request.GET.get('page')
     data=paginator.get_page(p_num)
@@ -28,9 +28,15 @@ def index(request):
         user.save()
         messages.success(request,'Thank you for contacting us')
         return redirect('index')
+    favorite_ids = set()
+    if request.user.is_authenticated:
+        favorite_ids = set(
+            Favorite.objects.filter(user=request.user, product__in=rent).values_list('product_id', flat=True)
+        )
     context={
         'rent':data,
-        'num':[ i+1 for i in range(total)]
+        'num':[ i+1 for i in range(total)],
+        'favorite_ids': favorite_ids,
     }
     return render(request,'rati/index.html',context)
 
@@ -132,13 +138,14 @@ def product_search(request):
         .values_list('location', flat=True) \
         .distinct()
 
-    products = Product.objects.filter(isdelete=True)
+    products = Product.objects.filter(isdelete=True).order_by('-created_at')
 
     # Get filter parameters from request
     location = request.GET.get('location')
     categories = request.GET.getlist('categories')
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
+    sort = request.GET.get('sort', 'newest')
 
     # Apply filters
     if location:
@@ -153,6 +160,13 @@ def product_search(request):
     if max_price:
         products = products.filter(price__lte=max_price)
 
+    if sort == 'price_low':
+        products = products.order_by('price')
+    elif sort == 'price_high':
+        products = products.order_by('-price')
+    else:
+        products = products.order_by('-created_at')
+
     # Pagination
     paginator=Paginator(products,3)
     p_num=request.GET.get('page')
@@ -164,18 +178,60 @@ def product_search(request):
     querydict.pop('page', None)
     query_string = querydict.urlencode()
 
+    favorite_ids = set()
+    if request.user.is_authenticated:
+        favorite_ids = set(
+            Favorite.objects.filter(user=request.user, product__in=products).values_list('product_id', flat=True)
+        )
+
     context = {
         
         'existing_locations': existing_locations,
+        'all_categories': Category.objects.all().order_by('name'),
         'selected_location': location,
         'selected_categories': categories,
         'min_price': min_price or '20000',
         'max_price': max_price or '25000',
+        'selected_sort': sort,
         'query_string': query_string,
         'products':data,
-        'num':[ i+1 for i in range(total)]
+        'num':[ i+1 for i in range(total)],
+        'favorite_ids': favorite_ids,
     }
     return render(request, 'products/search.html', context)
+
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id, isdelete=True)
+    is_favorite = False
+    if request.user.is_authenticated:
+        is_favorite = Favorite.objects.filter(user=request.user, product=product).exists()
+    return render(
+        request,
+        'products/detail.html',
+        {
+            'product': product,
+            'is_favorite': is_favorite,
+        },
+    )
+
+
+@login_required(login_url='login')
+def toggle_favorite(request, product_id):
+    product = get_object_or_404(Product, id=product_id, isdelete=True)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, product=product)
+    if not created:
+        favorite.delete()
+        messages.info(request, 'Removed from favorites.')
+    else:
+        messages.success(request, 'Added to favorites.')
+    return redirect(request.META.get('HTTP_REFERER', 'product_search'))
+
+
+@login_required(login_url='login')
+def favorites_list(request):
+    favorites = Favorite.objects.filter(user=request.user).select_related('product').order_by('-created_at')
+    return render(request, 'products/favorites.html', {'favorites': favorites})
 
 
 

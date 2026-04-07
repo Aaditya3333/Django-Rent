@@ -20,3 +20,43 @@ a {
     width: 65%;
 
 }
+
+body {
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+.property-card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.property-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+}
+
+.card .badge {
+    font-weight: 500;
+}
+
+.sale_section .heading_container h2,
+.contact_section .heading_container h2,
+.about_section .heading_container h2 {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.btn-primary,
+.btn-outline-primary,
+.btn-outline-danger,
+.btn-danger {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.info_section,
+.footer_section {
+    margin-top: 30px;
+}
