@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load  static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- bootstrap link css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <!-- Alertify -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    <!--Alertify  CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+    <!-- custom css auth -->
+     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+<body>
+    <!-- From Uiverse.io by Pinparker --> 
+<div class="container">
+
+    <div class="row">
+        
+        <div class="col-3 mx-auto ">
+            
+            <form method="post" action="{% url 'register' %}" class="form">
+              {% csrf_token %}
+                <a href="{% url 'index' %}"><button><h6>Home</h6></button></a>
+                <div class="form-title"><span>Register Your</span></div>
+                <div class="title-2"><span>ACCOUNT</span></div>
+                <div class="input-container">
+                  <input placeholder="Username" name="username" type="text" class="input-mail" />
+                  <span> </span>
+                </div>
+                <div class="input-container">
+                    <input placeholder="Email" name="email" type="email" class="input-mail" />
+                    <span> </span>
+                  </div>
+                  <div class="input-container">
+                    <input placeholder="First Name" name="fname" type="text" class="input-mail" />
+                    <span> </span>
+                  </div>
+                  <div class="input-container">
+                    <input placeholder="Last Name" name="lname" type="text" class="input-mail" />
+                    <span> </span>
+                  </div>
+              
+                <section class="bg-stars">
+                  <span class="star"></span>
+                  <span class="star"></span>
+                  <span class="star"></span>
+                  <span class="star"></span>
+                </section>
+              
+                <div class="input-container">
+                  <input placeholder="Password" name="password" type="password" class="input-pwd" />
+                </div>
+                <div class="input-container">
+                    <input placeholder="Confirm Password" name="password1" type="password" class="input-pwd" />
+                  </div>
+                <button class="submit" type="submit">
+                  <span class="sign-text">Sign Up</span>
+                
+                </button>
+                <a href="{% url 'login' %}"><h1 class="text-center">Login</h1></a>
+                
+              </form>
+              {% if messages %}
+    {% for message in messages  %}
+    {% if message.tags == 'success' %}
+    <script>
+      alertify.set('notifier','position', 'top-right');
+      alertify.success('{{message}}');
+    </script>  
+    {% elif message.tags == 'error'  %}
+    <script>
+      alertify.set('notifier','position', 'top-right');
+      alertify.error('{{message}}');
+    </script>  
+    {% endif %}
+    
+    {% endfor %}
+      
+    {% endif %}
+              
+        </div>
+    </div>
+</div>
+</body>
+</html>
