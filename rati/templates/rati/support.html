@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Support
+{% endblock title %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #4a80a7, #09ed7b);
+  }
+
+  .support-wrapper {
+    padding: 3rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .support-content {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+  }
+
+  .support-content h2 {
+    margin-bottom: 1rem;
+    color: #0d6efd;
+  }
+
+  .form-label {
+    font-weight: 500;
+  }
+
+  .btn-support {
+    background-color: #0d6efd;
+    color: white;
+  }
+
+  .btn-support:hover {
+    background-color: #0b5ed7;
+  }
+</style>
+
+<div class="support-wrapper">
+  <div class="support-content">
+    <h2 class="text-center text-bold"> Support</h2>
+    <p class="mb-4 text-center">Having trouble or need help? </p>
+
+   
+      
+
+    <hr class="my-4">
+
+    <p class="text-muted small">
+      You can also reach us directly at: <br>
+      <strong>Email:</strong> <a href="mailto:aadityapoudel68@gmail.com">support@aaditya68.com</a><br>
+      <strong>Phone:</strong> +977 9862364769
+      <h5>If you want to give your feedback/message.Go to <a href="{% url 'contact' %}">Contact</a></h5>
+    </p>
+  </div>
+</div>
+{% endblock content %}

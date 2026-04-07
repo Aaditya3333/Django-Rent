@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Blogs - Aaditya Rent
+{% endblock title %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, yellow, tomato);
+  }
+
+  .blogs-wrapper {
+    padding: 3rem 1rem;
+  }
+
+  .blog-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: transform 0.2s ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .blog-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #0d6efd;
+  }
+
+  .blog-meta {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-excerpt {
+    color: #333;
+  }
+
+  .read-more {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .read-more:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="container blogs-wrapper">
+  <h1 class="mb-4 text-center text-success">Our Latest Blogs</h1>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-4">
+      <div class="blog-card">
+        <div class="blog-title">Why Aaditya Rent Is the Smartest Way to Rent</div>
+        <div class="blog-meta">Posted on April 10, 2025 by Admin</div>
+        <p class="blog-excerpt">
+          Renting has never been easier. Aaditya Rent connects tenants with property owners and vehicle renters in just a few clicks.
+          From transparent pricing to verified listings, discover why thousands are choosing Aaditya Rent.
+        </p>
+       
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="blog-card">
+        <div class="blog-title">5 Tips for First-Time Renters Using Aaditya Rent</div>
+        <div class="blog-meta">Posted on May 2, 2025 by Aaditya Team</div>
+        <p class="blog-excerpt">
+          New to renting? Don’t worry. We've compiled the top 5 tips to help you navigate our platform confidently— from profile setup to finding your perfect home or vehicle.
+        </p>
+       
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="blog-card">
+        <div class="blog-title">How Aaditya Rent Ensures Secure and Verified Listings</div>
+        <div class="blog-meta">Posted on May 20, 2025 by Safety Officer</div>
+        <p class="blog-excerpt">
+          We take your safety seriously. Learn about the verification process Aaditya Rent uses to ensure every listing— whether a flat, house, or car—is real, safe, and secure.
+        </p>
+        
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
